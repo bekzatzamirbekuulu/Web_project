@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div class="login_form">
+        <h1>Login</h1>
+        <form action="#" method="post" id="fform">
+            <p>Username</p>
+            <input type="text" name="user" id="nick" placeholder="User name">
+            <p>Password</p>
+            <input type="password" name="password" id="pass" placeholder="Password">
+        </form>
+        <div id="submit_button">Log In</div>
+    </div>
+    <script type="module">
+  	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  	import { getDatabase, onValue, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+  	const firebaseConfig = {
+    	apiKey: "AIzaSyA9LnK-adMBtFNP66dvQ9_9PnqeQdVj1y8",
+    	authDomain: "project-532e6.firebaseapp.com",
+    	databaseURL: "https://project-532e6-default-rtdb.europe-west1.firebasedatabase.app",
+    	projectId: "project-532e6",
+    	storageBucket: "project-532e6.appspot.com",
+    	messagingSenderId: "233020880337",
+    	appId: "1:233020880337:web:540d80322297c05a071cf0"
+  	};
+    
+  	const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    var bdRef = ref(db, "users/"); 
+    let count;
+    onValue(bdRef, (snapshot) => {
+            count = Object.keys(snapshot.val()).length;
+          });
+    
+    document.getElementById("submit_button").addEventListener('click', e=> {
+        if(!(document.getElementById("nick").value === '' || document.getElementById("pass").value === '')){
+            set(ref(db, 'users/' + document.getElementById("nick").value), {
+              password: document.getElementById("pass").value ,
+              index: 1000 - count,
+              nick: document.getElementById("nick").value
+            });
+            window.location.replace("after.html");
+        }
+    });
+	
+</script>	
+</body>
+</html>

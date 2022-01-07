@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div id="headline">USERS</div>
+    <div id="list"></div>
+
+    <script type="module">
+  	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  	import { getDatabase, onValue, ref, set, orderByChild, query } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+  	const firebaseConfig = {
+    	apiKey: "AIzaSyA9LnK-adMBtFNP66dvQ9_9PnqeQdVj1y8",
+    	authDomain: "project-532e6.firebaseapp.com",
+    	databaseURL: "https://project-532e6-default-rtdb.europe-west1.firebasedatabase.app",
+    	projectId: "project-532e6",
+    	storageBucket: "project-532e6.appspot.com",
+    	messagingSenderId: "233020880337",
+    	appId: "1:233020880337:web:540d80322297c05a071cf0"
+  	};
+  	const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    var bdRef = query(ref(db, "users/"), orderByChild("index")); 
+    let count;
+    onValue(bdRef, (snapshot) => {
+          snapshot.forEach((snap) => {
+            let p = document.createElement("P");
+            p.innerText = snap.val()["nick"]+ ' ----------------- ' + snap.val()["password"];
+            document.getElementById("list").appendChild(p);
+          })
+    });
+</script>	
+</body>
+</html>
